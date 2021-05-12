@@ -15,11 +15,10 @@ const {lnd} = lnService.authenticatedLndGrpc({
 
 fastify.get('/nodeinfo', async function (request, reply) {
     try {
-        const info = getNodeInfo(request.query['uri'])
+        return getNodeInfo(request.query['uri'])
     } catch (err) {
         return err;
     }
-    return info;
 })
 
 
