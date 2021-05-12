@@ -2,7 +2,6 @@ require('dotenv').config()
 const lnService = require('ln-service');
 const {getNode} = require('ln-service');
 const {addPeer} = require('ln-service');
-const { info } = require('node:console');
 const fastify = require('fastify')({
     logger: true
   })
