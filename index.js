@@ -2,6 +2,7 @@ require('dotenv').config()
 const lnService = require('ln-service');
 const {getNode} = require('ln-service');
 const {addPeer} = require('ln-service');
+const { info } = require('node:console');
 const fastify = require('fastify')({
     logger: true
   })
@@ -14,14 +15,18 @@ const {lnd} = lnService.authenticatedLndGrpc({
 
 
 fastify.get('/nodeinfo', async function (request, reply) {
-    // reply.send(request.query['uri'])
-    reply.send(getNodeInfo(request.query['uri']))
+    try {
+        const info = getNodeInfo(request.query['uri'])
+    } catch (err) {
+        return err;
+    }
+    return info;
 })
 
 
 const start = async () => {
     try {
-        await fastify.listen(8081)
+        await fastify.listen(process.env.HTTP_PORT, process.env.HTTP_ADDR)
     } catch (err) {
         fastify.log.error(err)
         process.exit(1)
